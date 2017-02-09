@@ -8,6 +8,7 @@ RUN npm install -g bower
 # Bundle app source
 COPY . /src
 RUN cd /src; npm install --production; npm run postinstall
+RUN cd /src; bower install --allow-root
 
 WORKDIR "/src"
 
