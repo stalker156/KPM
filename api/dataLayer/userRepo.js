@@ -6,6 +6,7 @@ var connector = require('./selfDb')(global.config.db.url);
 var collectionName = 'users';
 
 module.exports.add = function(user, done) {
+    user.isDeleted = false;
     connector.getDB().then(function(db) {
         db.collection(collectionName).insertOne(user, function(err, data) {
             if (err) done(err);
