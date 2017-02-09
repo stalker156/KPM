@@ -98,7 +98,7 @@ function acceptApplicationCtrl($scope, $rootScope, socket, $location, $routePara
     $scope.searchData = function(){
         socket.emit('searchapplications',{searchTerm:$scope.searchTerm, stages:[0,1]}, function(err,data){
             if(err)return console.error(err);
-            $scope.data = data;
+            $scope.applications = data;
         });
     };
 

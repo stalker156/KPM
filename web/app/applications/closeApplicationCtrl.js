@@ -28,6 +28,9 @@ function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParam
     getCartrides();
     getDevices();
 
+    $scope.dataToSearch = {
+        searchTerm:null
+    };
     $scope.save = function(){
         socket.emit('addapplication', $scope.modalItem, function(err, data){
             if(err) {
@@ -120,9 +123,9 @@ function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParam
     };
 
     $scope.searchData = function(){
-        socket.emit('searchapplications',{searchTerm:$scope.searchTerm, stages:[1,2]}, function(err,data){
+        socket.emit('searchapplications',{searchTerm:$scope.dataToSearch.searchTerm, stages:[1,2]}, function(err,data){
             if(err)return console.error(err);
-            $scope.data = data;
+            $scope.applications = data;
         });
     };
 
@@ -140,4 +143,22 @@ function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParam
         }
         $('#myModal').modal('hide')
     }
+
+    $scope.printActs = function(){
+        if(_.some($scope.selectedApplication.items, function(item){
+                return !item.doneServices || !item.doneServices.length
+            }))
+            return toastr.error('Выберите выполненные работы');
+
+        socket.emit('getreport2file',JSON.parse(angular.toJson($scope.selectedApplication)), function(err, res){
+            if(err){
+                toastr.error('ошибка');
+                console.error(err);
+            }
+            console.log(res);
+            // $scope.linkToDownLoad = res;
+            document.getElementById('my_iframe').src = res;
+
+        });
+    };
 }
