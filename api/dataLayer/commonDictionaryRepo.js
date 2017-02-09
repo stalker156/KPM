@@ -11,7 +11,7 @@ var collectionNameManufactures = 'manufactures';
 module.exports.getstatuses = function(done) {
     connector.getDB().then(function(db) {
         var collection = db.collection(collectionNameStatuses);
-        collection.find({isDeleted: false }).sort({ value: 1 }).limit(20).toArray(function(err, data) {
+        collection.find({isDeleted: false }).sort({ value: 1 }).toArray(function(err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -77,7 +77,7 @@ module.exports.searchstatuses = function (payload, done) {
         }
 
         // query["name"] = new RegExp(payload.searchTerm, 'i');
-        collection.find(query).sort({value:1}).limit(20).toArray(function (err, data) {
+        collection.find(query).sort({value:1}).toArray(function (err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -86,7 +86,7 @@ module.exports.searchstatuses = function (payload, done) {
 module.exports.getcolors = function(done) {
     connector.getDB().then(function(db) {
         var collection = db.collection(collectionNameColors);
-        collection.find({isDeleted: false }).sort({ name: 1 }).limit(20).toArray(function(err, data) {
+        collection.find({isDeleted: false }).sort({ name: 1 }).toArray(function(err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -106,7 +106,7 @@ module.exports.searchcolors = function (payload, done) {
         }
 
         // query["name"] = new RegExp(payload.searchTerm, 'i');
-        collection.find(query).sort({name:1}).limit(20).toArray(function (err, data) {
+        collection.find(query).sort({name:1}).toArray(function (err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -115,7 +115,7 @@ module.exports.searchcolors = function (payload, done) {
 module.exports.getprints = function(done) {
     connector.getDB().then(function(db) {
         var collection = db.collection(collectionNamePrints);
-        collection.find({isDeleted: false }).sort({ name: 1 }).limit(20).toArray(function(err, data) {
+        collection.find({isDeleted: false }).sort({ name: 1 }).toArray(function(err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -135,7 +135,7 @@ module.exports.searchprints = function (payload, done) {
         }
 
         // query["name"] = new RegExp(payload.searchTerm, 'i');
-        collection.find(query).sort({name:1}).limit(20).toArray(function (err, data) {
+        collection.find(query).sort({name:1}).toArray(function (err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -144,7 +144,7 @@ module.exports.searchprints = function (payload, done) {
 module.exports.getmanufactures = function(done) {
     connector.getDB().then(function(db) {
         var collection = db.collection(collectionNameManufactures);
-        collection.find({isDeleted: false }).sort({ name: 1 }).limit(20).toArray(function(err, data) {
+        collection.find({isDeleted: false }).sort({ name: 1 }).toArray(function(err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -164,7 +164,7 @@ module.exports.searchmanufactures = function (payload, done) {
         }
 
         // query["name"] = new RegExp(payload.searchTerm, 'i');
-        collection.find(query).sort({name:1}).limit(20).toArray(function (err, data) {
+        collection.find(query).sort({name:1}).toArray(function (err, data) {
             if (err) return done(err);
             done(null, data);
         });

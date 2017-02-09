@@ -18,7 +18,7 @@ var checkObjectIds = function (item) {
 module.exports.getdevices = function(done) {
     connector.getDB().then(function(db) {
         var collection = db.collection(collectionName);
-        collection.find({isDeleted: false }).sort({ name: 1 }).limit(20).toArray(function(err, data) {
+        collection.find({isDeleted: false }).sort({ name: 1 }).toArray(function(err, data) {
             if (err) return done(err);
             done(null, data);
         });
@@ -114,7 +114,7 @@ module.exports.searchdevices = function (payload, done) {
         }
 
         // query["name"] = new RegExp(payload.searchTerm, 'i');
-        collection.find(query).limit(20).toArray(function (err, data) {
+        collection.find(query).toArray(function (err, data) {
             if (err) return done(err);
             done(null, data);
         });
