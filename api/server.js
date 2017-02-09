@@ -81,4 +81,45 @@ router.route('/downloadFile').get(function (req, resp) {
 
 
 });
+router.route('/downloadFile2').get(function (req, resp) {
+
+
+
+    var payload = JSON.parse(req.query.model);
+
+    var list = [];
+    _.each(payload.items, function(item,index){
+        list.push({
+            index:index,
+            model: item.facility.model,
+            serialNumber: item.facility.serialNumber?item.facility.serialNumber:'',
+            specification: item.facility.specification?item.facility.specification:'',
+            count:1,
+            comment:item.comment?item.comment:'',
+            serviceNames: _.map(item.services, function(service){
+                return service.name
+            }).join(", ")
+        });
+    });
+    var templateName = 'report2.docx';
+
+    var data = {
+        itemList: list
+    };
+
+
+    generateDocument(templateName, data, function(err, res){
+        if(err) return resp.json({operationResult:1,result:null});
+
+        resp.setHeader('Content-Type', 'application/octet-stream');
+        resp.setHeader('Content-disposition', 'attachment; filename="'+encodeURI(new ObjectID())+'.docx"');
+
+        var readStream = fs.createReadStream(res);
+        readStream.on("error", function(err) {
+            return resp.json({operationResult:1,result:err});
+        }).pipe(resp);
+    });
+
+
+});
 app.use('/api', router);

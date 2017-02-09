@@ -134,17 +134,7 @@ function addApplicationCtrl($scope, $rootScope, $window, socket, $location, $rou
             stage:0,
             items:$scope.items
         }));
-        // socket.emit('getreport1file',model, function(err, res){
-        //     if(err){
-        //         toastr.error('ошибка');
-        //         console.error(err);
-        //     }
-        //     console.log(res);
-        //     // $scope.linkToDownLoad = res;
-        //     document.getElementById('my_iframe').src = res;
-        //
-        // });
-        $window.location.href = 'http://localhost:8001/api/downloadFile?model='+JSON.stringify(model);
+        $window.location.href = $rootScope.API_ADDRESS+'/api/downloadFile?model='+JSON.stringify(model);
     };
 
     $scope.addItem = function(){

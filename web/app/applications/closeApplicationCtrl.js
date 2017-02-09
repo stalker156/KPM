@@ -1,9 +1,9 @@
 /**
  * Created by madina on 02.02.2017.
  */
-application.controller('closeApplicationCtrl', ['$scope', '$rootScope', 'socket', '$location', '$routeParams','$timeout', closeApplicationCtrl]);
+application.controller('closeApplicationCtrl', ['$scope', '$rootScope', 'socket', '$location', '$routeParams','$timeout','$window', closeApplicationCtrl]);
 
-function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,$timeout) {
+function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,$timeout,$window) {
     var self = this;
 
     this.emptyModal = {
@@ -17,7 +17,7 @@ function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParam
     ];
     this.init = function(){
 
-        $scope.modalItem = _.clone(self.emptyModal);
+        $scope.modalItem = JSON.parse(JSON.stringify(self.emptyModal));
         $scope.modalItem.type = 0;
 
         $scope.selectedType = $scope.types[0];
@@ -137,28 +137,15 @@ function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParam
     };
     $scope.changeItem = function(){
         for(var i = 0; i<$scope.selectedApplication.items.length;i++){
-            if($scope.selectedApplication.items[i].facility._id === $scope.modalItem.facility._id){
-                $scope.selectedApplication.items[i] = $scope.modalItem;
+
+            if(_.isEqual($scope.selectedApplication.items[i].facility,$scope.modalItem.facility) && $scope.selectedApplication.items[i].comment === $scope.modalItem.comment ){
+                $scope.selectedApplication.items[i] = JSON.parse(JSON.stringify($scope.modalItem));
             }
         }
         $('#myModal').modal('hide')
     }
 
     $scope.printActs = function(){
-        // if(_.some($scope.selectedApplication.items, function(item){
-        //         return !item.doneServices || !item.doneServices.length
-        //     }))
-        //     return toastr.error('Выберите выполненные работы');
-        //
-        // socket.emit('getreport2file',JSON.parse(angular.toJson($scope.selectedApplication)), function(err, res){
-        //     if(err){
-        //         toastr.error('ошибка');
-        //         console.error(err);
-        //     }
-        //     console.log(res);
-        //     // $scope.linkToDownLoad = res;
-        //     document.getElementById('my_iframe').src = res;
-        //
-        // });
+        $window.location.href = $rootScope.API_ADDRESS+'/api/downloadFile2?model='+JSON.stringify($scope.selectedApplication);
     };
 }
