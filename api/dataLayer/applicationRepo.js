@@ -146,6 +146,7 @@ module.exports.searchapplications = function (payload, done) {
         if(payload.searchTerm){
             query["$text"] = { $search:payload.searchTerm}
         }
+        console.log("searchTerm", payload.searchTerm);
 
         // query["name"] = new RegExp(payload.searchTerm, 'i');
         collection.find(query).sort({name:1}).limit(20).toArray(function (err, data) {

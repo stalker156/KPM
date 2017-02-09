@@ -110,7 +110,7 @@ function addApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,
         return look?true:false;
     };
 
-    $scope.printActs2 = function(elem){
+    $scope.printDivById = function(elem){
         var mywindow = window.open('', 'PRINT');
 
 
@@ -126,15 +126,24 @@ function addApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,
 
         return true;
     };
-    $scope.printActs = function(elem){
-        console.log("print");
-        // socket.emit('getreport1file',$scope.modalItem, function(err, res){
-        //     if(err){
-        //         toastr.error('ошибка');
-        //         console.error(err);
-        //     }
-        //     console.log(res);
-        // });
+    $scope.printActs = function(){
+        if(!$scope.items || !$scope.items.length)
+            return toastr.error('Перечень пуст');
+
+        var model = JSON.parse(angular.toJson({
+            stage:0,
+            items:$scope.items
+        }));
+        socket.emit('getreport1file',model, function(err, res){
+            if(err){
+                toastr.error('ошибка');
+                console.error(err);
+            }
+            console.log(res);
+            // $scope.linkToDownLoad = res;
+            document.getElementById('my_iframe').src = res;
+
+        });
     };
 
     $scope.addItem = function(){
@@ -143,7 +152,6 @@ function addApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,
 
         if(!$scope.modalItem.services || !$scope.modalItem.services.length)
             return toastr.error('Выберите вид работ');
-        delete  $scope.modalItem['$$hashKey'];
 
         $scope.items.push($scope.modalItem);
         self.init();

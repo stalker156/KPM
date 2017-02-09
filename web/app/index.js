@@ -190,7 +190,7 @@ function indexController($scope, $location, $rootScope, $http, socket,$window) {
         else {
             $location.path(menuItem.url);
         }
-        $(document).attr("title", "KPM | "+menuItem.name);
+        $(document).attr("title", "PrintPro | "+menuItem.name);
 
     };
 
@@ -204,8 +204,7 @@ function indexController($scope, $location, $rootScope, $http, socket,$window) {
         $scope.user = null;
         $scope.menuDefinitions = null;
         $.removeCookie("KPMAUTHORIZATIONTOKEN");
-        var currentUrl = encodeURIComponent($location.absUrl());
-        $window.location.href = '#/login?url=' + currentUrl;
+        location.reload();
     };
 
 

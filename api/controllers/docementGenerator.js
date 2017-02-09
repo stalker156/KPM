@@ -21,51 +21,83 @@ module.exports = [
                 list.push({
                     index:index,
                     model: item.facility.model,
-                    unit:1,
+                    unit:'услуга',
                     count:1,
                     serviceNames: _.map(item.services, function(service){
                         return service.name
                     }).join(", ")
                 });
             });
-            var docTemplateFileName = 'report1.docx';
-            var docFileId = new ObjectID();
-            docFileId = docFileId.toString() + '.docx';
+            var templateName = 'report1.docx';
 
-            var content = fs.readFileSync(path.join(__dirname, templatesFolderPath, docTemplateFileName), 'binary');
-            var zip = new JSZip(content);
-            var doc = new Docxtemplater();
-            var result;
-            doc.loadZip(zip);
-
-            doc.setData({
-                customer: 'TOO MEGA',
+            var data = {
                 itemList: list
+            };
+            generateDocument(templateName, data, function(error, result){
+                if(error)return done(error);
+                done(null, result);
             });
+        },
+        allowAnonymous: false
+    },
+    {
+        name: 'getreport2file',
+        callback: function (payload, done) {
+            var list = [];
+                _.each(payload.items, function(item,index){
+                list.push({
+                    index:index,
+                    model: item.facility.model,
+                    serialNumber: item.facility.serialNumber,
+                    specification: item.facility.specification,
+                    count:1,
+                    comment:item.comment,
+                    serviceNames: _.map(item.services, function(service){
+                        return service.name
+                    }).join(", ")
+                });
+            });
+            var templateName = 'report2.docx';
 
-            try {
-                doc.render()
-            }
-            catch (error) {
-                var e = {
-                    message: error.message,
-                    name: error.name,
-                    stack: error.stack,
-                    properties: error.properties
-                };
-                console.log(JSON.stringify({error: e}));
-                throw error;
-            }
-
-            fs.writeFileSync(path.join(__dirname, filesFolderPath, docFileId), buf);
-
-// buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-            fs.writeFileSync(path.resolve(__dirname, 'output.docx'), buf);
-
-            result = path.join(__dirname, filesFolderPath, docFileId);
-
-            done(null,result);
+            var data = {
+                itemList: list
+            };
+            generateDocument(templateName, data, function(error, result){
+                if(error)return done(error);
+                done(null, result);
+            });
         },
         allowAnonymous: false
     }
 ];
+function generateDocument(templateName, data, callback) {
+    var docFileId = new ObjectID().toString() + '.docx';
+    var content = fs.readFileSync(path.join(__dirname, templatesFolderPath, templateName), 'binary');
+    var zip = new JSZip(content);
+    var doc = new Docxtemplater();
+    var result;
+    doc.loadZip(zip);
+
+    doc.setData(data);
+
+    try {
+        doc.render()
+    }
+    catch (error) {
+        var e = {
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+            properties: error.properties
+        };
+        console.log(JSON.stringify({error: e}));
+        return callback(error);
+    }
+
+    var buf = doc.getZip().generate({type: "nodebuffer", compression: "DEFLATE"});
+    fs.writeFileSync(path.join(__dirname, filesFolderPath, docFileId), buf);
+
+    result = path.join(__dirname, filesFolderPath, docFileId);
+
+    callback(null, result);
+}
