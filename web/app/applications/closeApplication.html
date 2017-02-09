@@ -1,0 +1,153 @@
+<div ng-controller="closeApplicationCtrl">
+    <div class="page-header" style="margin-top:0">
+        <div class="row">
+            <div class="col-md-7">
+                <h4 ng-if="!selectedApplication">Выберите заявку для закрытия</h4>
+                <h4 ng-if="selectedApplication">Закрыть заявку <b> №{{selectedApplication.number}}</b></h4>
+            </div>
+            <div class="col-md-5" ng-if="selectedApplication">
+                <button type="button" class="btn btn-primary" ng-click="closeApplication()()">Закрыть заявку</button>
+                <button type="button" class="btn btn-primary" ng-click="printActs('printAct')">Распечатать акт выполненных работ</button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!selectedApplication">
+        <form ng-submit="searchData()">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="searchTerm" placeholder="введите номер заявки или  модель картриджа/оборудования">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit" ng-click="searchData()">Найти</button>
+                          </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <table class="table table-bordered">
+            <thead>
+            <tr class="active">
+                <th>№ заявки</th>
+                <th>Дата создания</th>
+                <th>Дата закрытия</th>
+                <th>ID картриджа/оборудования</th>
+                <th>Модель картриджа/оборудования</th>
+                <th>Запланированные работы</th>
+                <th>Выполненые работы</th>
+                <th>Комментарии к заявке</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat-start="app in applications" ng-class="{'success':app.stage===2}">
+                <td rowspan="{{app.items.length}}">{{app.number}}</td>
+                <td rowspan="{{app.items.length}}">{{app.createDate| date: 'dd.MM.yyyy HH:mm'}}</td>
+                <td rowspan="{{app.items.length}}">{{app.closeDate?(app.closeDate| date: 'dd.MM.yyyy HH:mm'):"-"}}</td>
+                <td>{{app.items[0].facility.ID}}</td>
+                <td>{{app.items[0].facility.model}}</td>
+                <td>{{getServiceNames(app.items[0].services)}}</td>
+                <td></td>
+                <td>{{app.items[0].comment}}</td>
+                <td rowspan="{{app.items.length}}">
+                    <button ng-if="app.stage===1" type="button" class="btn btn-primary" ng-click="selectApp($index )">Выбрать</button>
+                    <span ng-if="app.stage===2">Выполнено</span>
+                </td>
+            </tr>
+            <tr ng-repeat="item in app.items" ng-if="$index!==0" ng-class="{'success':app.stage===2}" ng-repeat-end="">
+                <td>{{item.facility.ID}}</td>
+                <td>{{item.facility.model}}</td>
+                <td>{{getServiceNames(item.services)}}</td>
+                <td>{{getServiceNames(item.doneServices)}}</td>
+                <td>{{item.comment}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-if="selectedApplication">
+        <div class="row">
+            <div class="col-md-4">
+                <b>Дата создания</b>
+            </div>
+            <div class="col-md-4">
+                <h4><span class="label label-default">{{selectedApplication.createDate| date: 'dd.MM.yyyy HH:mm'}}</span></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <b>Создатель</b>
+            </div>
+            <div class="col-md-4">
+                <span>{{selectedApplication.createUser.userFullName}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <b>Принял</b>
+            </div>
+            <div class="col-md-4">
+                <span>{{selectedApplication.acceptUser.userFullName}}</span>
+            </div>
+        </div><br/>
+        <div class="page-header">
+            <h4>Перечень картриджей и оборудования на обслуживание:</h4>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr class="active">
+                <th>ID картриджа/оборудования</th>
+                <th>Модель картриджа/оборудования</th>
+                <th>Запланированные работы</th>
+                <th>Выполненые работы</th>
+                <th>Комментарии к заявке</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in selectedApplication.items" ng-click="showModal($index )" data-toggle="modal" data-target="#myModal">
+                    <td>{{item.facility.ID}}</td>
+                    <td>{{item.facility.model}}</td>
+                    <td>{{getServiceNames(item.services)}}</td>
+                    <td>{{getServiceNames(item.doneServices)}}</td>
+                    <td>{{item.comment}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header well">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{modalItem.facility.ID}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Вид работ</label>
+                            <div class="col-sm-9">
+                                <!--<select class="form-control" ng-model="modalItem.serviceId"-->
+                                <!--ng-options="service._id as service.name for service in selectedType.services"></select>-->
+                                <ul class="list-unstyled">
+                                    <li class="list-group-item" ng-repeat="service in selectedType.services" ng-click="addService(service)" style="cursor:pointer" >
+                                        <input type="checkbox" readonly="true"  ng-checked="isServiceChecked(service._id)"/><span> {{service.name}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Комментарий</label>
+                            <div class="col-sm-9">
+                                <textarea rows="5" cols="50" ng-model="modalItem.comment"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" ng-click="changeItem()">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

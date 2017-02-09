@@ -1,0 +1,41 @@
+<div ng-controller="statusesCtrl">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="введите текст для поиска" ng-model="searchTerm">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="searchData()">Найти</button>
+                  </span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary" ng-click="addItem()">Добавить статус</button>
+        </div>
+    </div>
+    <br/>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="active">
+            <th>№</th>
+            <th>Название</th>
+            <th>Значение</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data">
+            <td>{{$index+1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.value}}</td>
+            <td>
+                <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="editItem(item._id)">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-default" aria-label="Right Align" ng-click="removeItem(item._id)">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </td>
+
+        </tr>
+    </table>
+</div>

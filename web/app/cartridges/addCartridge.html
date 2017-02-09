@@ -1,0 +1,54 @@
+<div ng-controller="addCartridgeCtrl">
+    <ol class="breadcrumb">
+        <li><a href="/#/cartridges">Картриджи</a></li>
+        <li class="active">Добавить картридж</li>
+    </ol>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Заказчик</label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="modalItem.customerId"
+                        ng-options="customer._id as customer.name for customer in customers track by customer._id"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ID картриджа</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="modalItem.ID">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Модель картриджа</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="modalItem.model">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Тип картриджа</label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="modalItem.printTypeId"
+                        ng-options="printType._id as printType.name for printType in printTypes track by printType._id"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Цвет</label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="modalItem.colorId"
+                        ng-options="color._id as color.name for color in colors track by color._id"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Совместимость с оборудованием</label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="modalItem.deviceId"
+                        ng-options="device._id as device.model for device in devices track by device._id"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button  class="btn btn-danger" ng-click="cancel()">Отмена</button>
+                <button type="submit" class="btn btn-success" ng-click="save()">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>

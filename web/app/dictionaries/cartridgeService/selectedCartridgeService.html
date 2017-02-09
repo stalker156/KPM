@@ -1,0 +1,29 @@
+<div ng-controller="selectedCartridgeServiceCtrl">
+    <!--<div class="page-header">-->
+        <!--<h4>Добавить заказчика</h4>-->
+    <!--</div>-->
+    <ol class="breadcrumb">
+        <li><a href="/#/dictionary/cartridgeService">Заправка картриджей</a></li>
+        <li ng-if="!isUpdate" class="active">Добавить услугу</li>
+        <li ng-if="isUpdate" class="active">Редактировать {{modalItem.name}}</li>
+    </ol>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Название услуги</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="modalItem.name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Комментарий</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="modalItem.comment">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" ng-click="save()">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>

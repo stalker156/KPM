@@ -1,0 +1,32 @@
+{
+  "name": "kpm",
+  "version": "0.0.0",
+  "authors": [
+    "madina <madina.juss@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.0",
+    "angular-route": "~1.5.0",
+    "datetimepicker": "~2.5.1",
+    "highcharts": "~4.2.3",
+    "jquery-ui": "~1.11.4",
+    "jquery.cookie": "jquery-cookie#~1.4.1",
+    "moment": "~2.11.2",
+    "normalize-css": "normalize.css#~3.0.3",
+    "socket.io-client": "~1.4.5",
+    "underscore": "~1.8.3",
+    "bootstrap": "^3.3.7",
+    "toastr": "^2.1.3"
+  }
+}

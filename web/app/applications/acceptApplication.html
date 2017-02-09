@@ -1,0 +1,55 @@
+<div ng-controller="acceptApplicationCtrl">
+    <div class="page-header" style="margin-top:0">
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Принять заявку</h4>
+            </div>
+        </div>
+    </div>
+    <form ng-submit="searchData()">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="searchTerm" placeholder="введите номер заявки или  модель картриджа/оборудования">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" ng-click="searchData()">Найти</button>
+                      </span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="active">
+            <th>№ заявки</th>
+            <th>Дата создания</th>
+            <th>ID картриджа/оборудования</th>
+            <th>Модель картриджа/оборудования</th>
+            <th>Работы</th>
+            <th>Комментарии к заявке</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat-start="app in applications" ng-class="{'success':app.stage===1}">
+            <td rowspan="{{app.items.length}}">{{app.number}}</td>
+            <td rowspan="{{app.items.length}}">{{app.createDate| date: 'dd.MM.yyyy HH:mm'}}</td>
+            <td>{{app.items[0].facility.ID}}</td>
+            <td>{{app.items[0].facility.model}}</td>
+            <td>{{getServiceNames(app.items[0].services)}}</td>
+            <td>{{app.items[0].comment}}</td>
+            <td rowspan="{{app.items.length}}">
+                <button ng-if="app.stage===0" type="button" class="btn btn-primary" ng-click="accept($index )">Принять</button>
+                <span ng-if="app.stage===1">На обслуживании</span>
+            </td>
+        </tr>
+        <tr ng-repeat="item in app.items" ng-if="$index!==0" ng-class="{'success':app.stage===1}" ng-repeat-end="">
+            <td>{{item.facility.ID}}</td>
+            <td>{{item.facility.model}}</td>
+            <td>{{getServiceNames(item.services)}}</td>
+            <td>{{item.comment}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

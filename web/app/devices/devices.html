@@ -1,0 +1,45 @@
+<div ng-controller="devicesCtrl">
+    <div class="page-header" style="margin-top:0">
+        <h4>Оборудования</h4>
+    </div>
+    <form ng-submit="searchData()">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="searchTerm" placeholder="введите цифрофой код или наименовение оборудования">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Найти</button>
+                      </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary" ng-click="addItem()">Добавить оборудование</button>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr class="active">
+                <th>№</th>
+                <th>ID оборудования</th>
+                <th>Производитель</th>
+                <th>Модель оборудования</th>
+                <th>Тип печати</th>
+                <th>Цветность</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in data" ng-click="showDeviceCard(item._id)">
+                <td>{{$index+1}}</td>
+                <td>{{item.ID}}</td>
+                <td>{{getManufacture(item.manufactureId)}}</td>
+                <td>{{item.model}}</td>
+                <td>{{getPrintType(item.printTypeId)}}</td>
+                <td>{{getColor(item.colorId)}}</td>
+                <td>{{getStatus(item.status)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

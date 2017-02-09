@@ -1,0 +1,29 @@
+{
+  "name": "kpmjs",
+  "version": "1.0.0",
+  "description": "kpmjs",
+  "main": "server.js",
+  "dependencies": {
+    "async": "^1.5.2",
+    "bufferput": "^0.1.2",
+    "compression": "^1.6.2",
+    "crc": "^3.4.0",
+    "express": "^4.13.4",
+    "http": "0.0.0",
+    "moment": "^2.13.0",
+    "mongodb": "^2.2.19",
+    "socket.io": "^1.4.6",
+    "underscore": "^1.8.3",
+    "docxtemplater": "^3.0.3",
+    "jszip": "^2.6.1",
+    "fs": "0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "./startup.sh",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "bower install --allow-root"
+  },
+  "author": "",
+  "license": "ISC"
+}

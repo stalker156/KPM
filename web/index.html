@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app='application' ng-controller='indexController'>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <title>KPM</title>
+        <!--CSS-->
+        <link href="libs/normalize-css/normalize.css" rel="stylesheet" />
+        <link href="libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="libs/bootstrap/dist/css/bootstrap.min.css" media="print" rel="stylesheet" />
+        <link href="libs/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
+        <link href="libs/datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+        <link href="libs/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+
+        <script src="http://api-maps.yandex.ru/2.0/?load=package.map&lang=ru-RU" type="text/javascript"></script>
+        <!--JS-->
+        <script src="libs/jquery/dist/jquery.min.js"></script>
+        <script src="libs/jquery-ui/jquery-ui.min.js"></script>
+        <script src="libs/jquery.cookie/jquery.cookie.js"></script>
+        <script src="libs/underscore/underscore-min.js"></script>
+        <script src="libs/angular/angular.min.js"></script>
+        <script src="libs/angular-route/angular-route.min.js"></script>
+        <script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="libs/highcharts/highstock.src.js"></script>
+        <script src="libs/socket.io-client/socket.io.js"></script>
+        <script src="libs/moment/moment.js"></script>
+        <script src="libs/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+        <script src="libs/toastr/toastr.min.js"></script>
+        <!--Application JS-->
+        <script src="app/index.js"></script>
+        <script src="app/login/loginCtrl.js"></script>
+        <script src="app/applications/addApplicationCtrl.js"></script>
+        <script src="app/applications/acceptApplicationCtrl.js"></script>
+        <script src="app/applications/closeApplicationCtrl.js"></script>
+        <script src="app/cartridges/cartridgesCtrl.js"></script>
+        <script src="app/cartridges/addCartridgeCtrl.js"></script>
+        <script src="app/cartridges/cartridgeCardCtrl.js"></script>
+        <script src="app/devices/deviceCardCtrl.js"></script>
+        <script src="app/devices/devicesCtrl.js"></script>
+        <script src="app/devices/addDeviceCtrl.js"></script>
+        <script src="app/dictionaries/customer/customerCtrl.js"></script>
+        <script src="app/dictionaries/customer/selectedCustomerCtrl.js"></script>
+        <script src="app/dictionaries/users/userCtrl.js"></script>
+        <script src="app/dictionaries/users/selectedUserCtrl.js"></script>
+        <script src="app/dictionaries/cartridgeService/cartridgeServiceCtrl.js"></script>
+        <script src="app/dictionaries/cartridgeService/selectedCartridgeServiceCtrl.js"></script>
+        <script src="app/dictionaries/deviceService/deviceServiceCtrl.js"></script>
+        <script src="app/dictionaries/deviceService/selectedDeviceServiceCtrl.js"></script>
+        <script src="app/dictionaries/common/statuses/statusesCtrl.js"></script>
+        <script src="app/dictionaries/common/statuses/selectedStatusCtrl.js"></script>
+        <script src="app/dictionaries/common/colors/colorsCtrl.js"></script>
+        <script src="app/dictionaries/common/colors/selectedColorCtrl.js"></script>
+        <script src="app/dictionaries/common/printTypes/printsCtrl.js"></script>
+        <script src="app/dictionaries/common/printTypes/selectedPrintCtrl.js"></script>
+        <script src="app/dictionaries/common/manufactures/manufacturesCtrl.js"></script>
+        <script src="app/dictionaries/common/manufactures/selectedManufactureCtrl.js"></script>
+        <script src="app/dictionaries/utilization/utilizationCtrl.js"></script>
+        <script src="app/reports/report1Ctrl.js"></script>
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" ng-if="$root.user">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#" style="margin-top:0;padding-top:1rem">
+                        <!--<div class="media">-->
+                            <!--<div class="media-left">-->
+                                <!--<a href="#">-->
+                                    <img class="media-object" src="files/printpro.png" style="height:34px;width:97px" alt="Brand">
+                                <!--</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li ng-repeat="menu in $root.menuDefinitions" ng-class="{active:isActive(menu.url, true)}"><a href="" ng-click="goTo(menu,true)">{{menu.name}}</a></li>
+                    </ul>
+                    <!--<ul class="nav navbar-nav navbar-right">-->
+                        <!--<li>{{$root.user.userName}}</li>-->
+                    <!--</ul>-->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" ng-click="logOut()">Выход</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid" ng-if="$root.activeMenu && $root.user">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li ng-repeat="menu in $root.activeMenu.childs" ng-class="{active:isActive(menu.url)}"><a href="" ng-click="goTo(menu)">{{menu.name}}</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <ul class="nav nav-pills" ng-if="$root.secondaryActiveMenu">
+                        <li ng-repeat="menu in $root.secondaryActiveMenu.childs" ng-class="{active:isActive(menu.url)}" ng-click="goTo(menu, false, true)"><a href="">{{menu.name}}</a></li>
+                    </ul><br/>
+                    <div ng-view></div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="!$root.activeMenu">
+            <br/>
+            <div class="container" ng-view></div>
+        </div>
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-body">-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+    </body>
+
+</html>
+<style>
+    body {
+        padding-top: 50px;
+    }
+
+
+    /*
+     * Global add-ons
+     */
+
+    .sub-header {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /*
+     * Top navigation
+     * Hide default border to remove 1px line.
+     */
+    .navbar-fixed-top {
+        border: 0;
+    }
+
+    /*
+     * Sidebar
+     */
+
+    /* Hide for mobile, show later */
+    .sidebar {
+        display: none;
+    }
+    @media (min-width: 768px) {
+        .sidebar {
+            position: fixed;
+            top: 51px;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: block;
+            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+            background-color: #f5f5f5;
+            border-right: 1px solid #eee;
+        }
+    }
+
+    /* Sidebar navigation */
+    .nav-sidebar {
+        margin-right: -21px; /* 20px padding + 1px border */
+        margin-bottom: 20px;
+        margin-left: -20px;
+    }
+    .nav-sidebar > li > a {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+    .nav-sidebar > .active > a,
+    .nav-sidebar > .active > a:hover,
+    .nav-sidebar > .active > a:focus {
+        color: #fff;
+        background-color: #428bca;
+    }
+
+
+    /*
+     * Main content
+     */
+
+    .main {
+        padding: 20px;
+    }
+    @media (min-width: 768px) {
+        .main {
+            padding-right: 40px;
+            padding-left: 40px;
+        }
+    }
+    .main .page-header {
+        margin-top: 0;
+    }
+
+
+    /*
+     * Placeholder dashboard ideas
+     */
+
+    .placeholders {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .placeholders h4 {
+        margin-bottom: 0;
+    }
+    .placeholder {
+        margin-bottom: 20px;
+    }
+    .placeholder img {
+        display: inline-block;
+        border-radius: 50%;
+    }
+</style>

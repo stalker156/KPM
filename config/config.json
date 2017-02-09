@@ -1,0 +1,12 @@
+{
+    "db": {
+        "host": "localhost",
+        "dbName": "KPM",
+        "port": "27017",
+        "url": "mongodb://127.0.0.1:27017/KPM"
+    },
+    "apiPort": "8001",
+    "apiAddress": "http://127.0.0.1:8001",
+    "webPort": "8000",
+    "tmpFilePath": "'./"
+}

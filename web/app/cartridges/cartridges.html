@@ -1,0 +1,43 @@
+<div ng-controller="cartridgesCtrl">
+    <div class="page-header" style="margin-top:0 !important">
+        <h4>Картриджи</h4>
+    </div>
+    <form ng-submit="searchData()">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="searchTerm" placeholder="введите цифрофой код или  модель картриджа">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" ng-click="searchData()">Найти</button>
+                      </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary" ng-click="addItem()">Добавить картридж</button>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr class="active">
+                <th>№</th>
+                <th>ID картриджа</th>
+                <th>Модель картриджа</th>
+                <th>Тип картриджа</th>
+                <th>Цвет</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in data" ng-click="showCartridgeCard(item._id)">
+                <td>{{$index+1}}</td>
+                <td>{{item.ID}}</td>
+                <td>{{item.model}}</td>
+                <td>{{getPrintType(item.printTypeId)}}</td>
+                <td>{{getColor(item.colorId)}}</td>
+                <td>{{getStatus(item.stage)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

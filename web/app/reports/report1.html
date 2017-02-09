@@ -1,0 +1,21 @@
+<div ng-controller="report1Ctrl">
+    <div class="row">
+    <label class="col-md-1 control-label">Заказчик: </label>
+    <div class="col-md-2">
+        <select class="form-control" ng-model="selectedCustomer" ng-options="customer._id as customer.name for customer in customers track by customer._id"></select>
+    </div>
+    <label class="col-md-1 control-label">Период: </label>
+    <!--<div class="input-group input-group-sm">-->
+        <!--<span class="input-group-addon" id="sizing-addon3">@</span>-->
+        <!--<input id="startDate" type="text" class="form-control" aria-describedby="sizing-addon3">-->
+    <!--</div>-->
+    <div class="col-md-2 input-group">
+        <span class="glyphicon glyphicon-calendar input-group-addon" aria-hidden="true" id="sizing-addon3"></span>
+            <input type="text" class="form-control" id="startDate" aria-describedby="sizing-addon3">
+    </div>
+    <!--<div class="col-md-2 input-group">-->
+        <!--<span class="glyphicon glyphicon-calendar input-group-addon" aria-hidden="true"></span>-->
+            <!--<input type="text" class="form-control" id="finishDate">-->
+    <!--</div>-->
+    </div>
+</div>

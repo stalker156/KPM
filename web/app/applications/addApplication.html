@@ -1,0 +1,121 @@
+<div ng-controller="addApplicationCtrl">
+    <div class="page-header" style="margin-top:0">
+    <div class="row">
+        <div class="col-md-7">
+            <h4>Создать заявку</h4>
+        </div>
+        <div class="col-md-5">
+            <button type="button" class="btn btn-primary" ng-click="save()">Отправить заявку</button>
+            <button type="button" class="btn btn-primary" ng-click="printActs()">Распечатать акт приема - передачи</button>
+        </div>
+    </div>
+</div>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Тип</label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="selectedType"
+                        ng-options="type as type.name for type in types" ng-change="setType(selectedType)"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ID</label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="modalItem.facility"
+                        ng-options="item as item.ID for item in selectedType.data"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Вид работ</label>
+            <div class="col-sm-10">
+                <!--<select class="form-control" ng-model="modalItem.serviceId"-->
+                        <!--ng-options="service._id as service.name for service in selectedType.services"></select>-->
+                <ul class="list-group list-hover">
+                    <li class="list-group-item" ng-repeat="service in selectedType.services" ng-click="addService(service)" style="cursor:pointer" >
+                        <input type="checkbox" ng-checked="isServiceChecked(service._id)"/><span> {{service.name}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Комментарий</label>
+            <div class="col-sm-10">
+                <textarea rows="3" cols="100" ng-model="modalItem.comment"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" ng-click="addItem()">Добавить</button>
+            </div>
+        </div>
+    </form><br/>
+    <div class="page-header">
+        <h4>Перечень картриджей и оборудования на обслуживание:</h4>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr class="active">
+            <th>№</th>
+            <th>ID картриджа/оборудования</th>
+            <th>Модель картриджа/оборудования</th>
+            <th>Работы</th>
+            <th>Комментарии к заявке</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="app in items">
+            <td>{{$index+1}}</td>
+            <td>{{app.facility.ID}}</td>
+            <td>{{app.facility.model}}</td>
+            <td>{{getServiceNames(app.services)}}</td>
+            <td>{{app.comment}}</td>
+            <td>
+                <button type="button" class="btn btn-default" aria-label="Right Align" ng-click="removeItem($index)">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--<div id="printAct" style="display:none" class="container print">-->
+        <!--<div class="row">-->
+            <!--<div class="col-sm-8"></div>-->
+            <!--<div class="col-sm-4">-->
+                <!--<b>Приложение №3 к проекту Договора</b><br/>-->
+                <!--по оказанию услуг по техническому<br/>-->
+                <!--обслуживанию копировально множительной техники-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<br/><br/><br/><br/>-->
+        <!--<br/><br/><br/><br/>-->
+
+        <!--<div class="row">-->
+            <!--<div class="col-sm-4"></div>-->
+            <!--<div class="col-sm-4">-->
+                <!--<p class="text-center"><h1>Форма акта оказанных услуг</h1></p>-->
+            <!--</div>-->
+            <!--<div class="col-sm-4"></div>-->
+        <!--</div>-->
+
+        <!--<div class="container">-->
+            <!--<b>Заказчик:__________________________________</b><br/>-->
+            <!--<b>Поставщик:_________________________________</b><br/>-->
+            <!--<b>Основание:_________________________________</b><br/>-->
+        <!--</div>-->
+        <!--<br/><br/>-->
+        <!--<table class="table table-bordered">-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>№</th>-->
+                <!--<th>Наименования КМТ</th>-->
+                <!--<th>Ед. изм.</th>-->
+                <!--<th>Количество</th>-->
+                <!--<th>Наименование выполненных работ</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+        <!--</table>-->
+
+    <!--</div>-->
+</div>

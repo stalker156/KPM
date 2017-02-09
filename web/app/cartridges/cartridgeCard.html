@@ -1,0 +1,82 @@
+<div ng-controller="cartridgeCardCtrl">
+    <ol class="breadcrumb">
+        <li><a href="/#/cartridges">Картриджи</a></li>
+        <li class="active">Карточка</li>
+    </ol>
+    <div class="page-header" style="padding-top:0">
+        <div class="row">
+            <div class="col-md-8">
+                <h4>{{modalItem.ID}}: Картридж {{modalItem.model}}</h4>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary" ng-click="removeItem(modalItem._id)">Отправить на утилизацию</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <b>Заказчик</b>
+        </div>
+        <div class="col-md-4">
+            <h4><span class="label label-default">{{getCustomer(modalItem.customerId)}}</span></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <b>Модель картриджа</b>
+        </div>
+        <div class="col-md-4">
+            <span>{{modalItem.model}}</span>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-4">
+            <b>Тип картриджа</b>
+        </div>
+        <div class="col-md-4">
+            <span>{{getPrintType(modalItem.printTypeId)}}</span>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-4">
+            <b>Цвет</b>
+        </div>
+        <div class="col-md-4">
+            <span>{{getColor(modalItem.colorId)}}</span>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-4">
+            <b>Совместимость</b>
+        </div>
+        <div class="col-md-4">
+            <span>{{getDevice(modalItem.deviceId)}}</span>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="page-header">
+        <h4>История работы</h4>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="active">
+                <th>Дата приема</th>
+                <th>Дата обслуживания</th>
+                <th>Выполненные работы</th>
+                <th>Комментарии</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="app in applications">
+                <td>{{app.acceptDate | date: 'dd.MM.yyyy HH:mm'}}</td>
+                <td>{{app.closeDate | date: 'dd.MM.yyyy HH:mm'}}</td>
+                <td>{{getServiceNames(app)}}</td>
+                <td>{{getComment(app)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

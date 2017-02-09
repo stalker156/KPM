@@ -1,0 +1,31 @@
+<div ng-controller="utilizationCtrl">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="введите текст для поиска" ng-model="searchTerm">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="searchData()">Найти</button>
+                  </span>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="active">
+            <th>№</th>
+            <th>Тип</th>
+            <th>ID</th>
+            <th>Модель</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data">
+            <td>{{$index+1}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.ID}}</td>
+            <td>{{item.model}}</td>
+
+        </tr>
+    </table>
+</div>

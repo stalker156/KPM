@@ -1,0 +1,16 @@
+<div class="container" ng-controller="loginCtrl">
+    <form class="form-signin" ng-submit="logIn()">
+        <h2 class="form-signin-heading">Вход</h2>
+        <label for="inputEmail" class="sr-only">Логин</label>
+        <input type="text" id="inputEmail" class="form-control" placeholder="Login" required autofocus ng-model="login.userName">
+        <label for="inputPassword" class="sr-only">Пароль</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="login.pwd">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me">Запомнить
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    </form>
+
+</div>
