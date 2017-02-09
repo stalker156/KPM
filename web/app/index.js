@@ -188,7 +188,9 @@ function indexController($scope, $location, $rootScope, $http, socket,$window) {
             $location.path(menuItem.childs[0].url);
         }
         else {
-            $location.path(menuItem.url);
+            if(menuItem.url!=='/dictionary/report'){
+                $location.path(menuItem.url);
+            }
         }
         $(document).attr("title", "PrintPro | "+menuItem.name);
 

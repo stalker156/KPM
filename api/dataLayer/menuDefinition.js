@@ -95,6 +95,11 @@ module.exports.definition = [
                 url:'/dictionary/user',
                 name:'Пользователи',
                 roles:['fAdmin']
+            },
+            {
+                url:'/dictionary/report',
+                name:'Отчеты',
+                roles:null
             }
         ]
     },
