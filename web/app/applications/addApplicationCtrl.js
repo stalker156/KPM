@@ -127,23 +127,23 @@ function addApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,
         return true;
     };
     $scope.printActs = function(){
-        if(!$scope.items || !$scope.items.length)
-            return toastr.error('Перечень пуст');
-
-        var model = JSON.parse(angular.toJson({
-            stage:0,
-            items:$scope.items
-        }));
-        socket.emit('getreport1file',model, function(err, res){
-            if(err){
-                toastr.error('ошибка');
-                console.error(err);
-            }
-            console.log(res);
-            // $scope.linkToDownLoad = res;
-            document.getElementById('my_iframe').src = res;
-
-        });
+        // if(!$scope.items || !$scope.items.length)
+        //     return toastr.error('Перечень пуст');
+        //
+        // var model = JSON.parse(angular.toJson({
+        //     stage:0,
+        //     items:$scope.items
+        // }));
+        // socket.emit('getreport1file',model, function(err, res){
+        //     if(err){
+        //         toastr.error('ошибка');
+        //         console.error(err);
+        //     }
+        //     console.log(res);
+        //     // $scope.linkToDownLoad = res;
+        //     document.getElementById('my_iframe').src = res;
+        //
+        // });
     };
 
     $scope.addItem = function(){

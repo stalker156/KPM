@@ -145,20 +145,20 @@ function closeApplicationCtrl($scope, $rootScope, socket, $location, $routeParam
     }
 
     $scope.printActs = function(){
-        if(_.some($scope.selectedApplication.items, function(item){
-                return !item.doneServices || !item.doneServices.length
-            }))
-            return toastr.error('Выберите выполненные работы');
-
-        socket.emit('getreport2file',JSON.parse(angular.toJson($scope.selectedApplication)), function(err, res){
-            if(err){
-                toastr.error('ошибка');
-                console.error(err);
-            }
-            console.log(res);
-            // $scope.linkToDownLoad = res;
-            document.getElementById('my_iframe').src = res;
-
-        });
+        // if(_.some($scope.selectedApplication.items, function(item){
+        //         return !item.doneServices || !item.doneServices.length
+        //     }))
+        //     return toastr.error('Выберите выполненные работы');
+        //
+        // socket.emit('getreport2file',JSON.parse(angular.toJson($scope.selectedApplication)), function(err, res){
+        //     if(err){
+        //         toastr.error('ошибка');
+        //         console.error(err);
+        //     }
+        //     console.log(res);
+        //     // $scope.linkToDownLoad = res;
+        //     document.getElementById('my_iframe').src = res;
+        //
+        // });
     };
 }
