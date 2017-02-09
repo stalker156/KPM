@@ -1,9 +1,9 @@
 /**
  * Created by madina on 02.02.2017.
  */
-application.controller('addApplicationCtrl', ['$scope', '$rootScope', 'socket', '$location', '$routeParams','$timeout', addApplicationCtrl]);
+application.controller('addApplicationCtrl', ['$scope', '$rootScope', '$window', 'socket', '$location', '$routeParams','$timeout', addApplicationCtrl]);
 
-function addApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,$timeout) {
+function addApplicationCtrl($scope, $rootScope, $window, socket, $location, $routeParams,$timeout) {
     var self = this;
     $scope.items = [];
     this.emptyModal = {
@@ -127,13 +127,13 @@ function addApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,
         return true;
     };
     $scope.printActs = function(){
-        // if(!$scope.items || !$scope.items.length)
-        //     return toastr.error('Перечень пуст');
-        //
-        // var model = JSON.parse(angular.toJson({
-        //     stage:0,
-        //     items:$scope.items
-        // }));
+        if(!$scope.items || !$scope.items.length)
+            return toastr.error('Перечень пуст');
+
+        var model = JSON.parse(angular.toJson({
+            stage:0,
+            items:$scope.items
+        }));
         // socket.emit('getreport1file',model, function(err, res){
         //     if(err){
         //         toastr.error('ошибка');
@@ -144,6 +144,7 @@ function addApplicationCtrl($scope, $rootScope, socket, $location, $routeParams,
         //     document.getElementById('my_iframe').src = res;
         //
         // });
+        $window.location.href = 'http://localhost:8001/api/downloadFile?model='+JSON.stringify(model);
     };
 
     $scope.addItem = function(){

@@ -101,3 +101,5 @@ function generateDocument(templateName, data, callback) {
 
     callback(null, result);
 }
+
+module.exports.generateDocument = generateDocument;

@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "async": "^1.5.2",
+    "body-parser": "^1.14.1",
     "bufferput": "^0.1.2",
     "compression": "^1.6.2",
     "crc": "^3.4.0",
