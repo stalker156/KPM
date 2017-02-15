@@ -32,7 +32,8 @@ var application = angular
             .when('/dictionary/common/manufacture', {templateUrl: "app/dictionaries/common/manufactures/manufactures.html"})
             .when('/dictionary/common/manufacture/edit', {templateUrl: "app/dictionaries/common/manufactures/selectedManufacture.html"})
             .when('/dictionary/utilization', {templateUrl: "app/dictionaries/utilization/utilizations.html"})
-            .when('/reports', {templateUrl: "app/reports/report1.html"})
+            .when('/reports/report1', {templateUrl: "app/reports/report1.html"})
+            .when('/reports/report2', {templateUrl: "app/reports/report2.html"})
         ;
 
 

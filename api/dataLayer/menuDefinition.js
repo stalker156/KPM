@@ -103,10 +103,23 @@ module.exports.definition = [
             }
         ]
     },
-    // {
-    //     url: '/reports',
-    //     name: 'Отчеты',
-    //     roles: null,
-    //     iconClass: "icon home"
-    // }
+    {
+        url: '/reports',
+        name: 'Отчеты',
+        roles: null,
+        iconClass: "icon home",
+        loadFirstChild:true,
+        childs:[
+            {
+                url:'/reports/report1',
+                name:'Отчет по работе с оборудованием',
+                roles:null
+            },
+            {
+                url:'/reports/report2',
+                name:'Отчеты о переданном оборудовании',
+                roles:null
+            }
+        ]
+    }
 ];

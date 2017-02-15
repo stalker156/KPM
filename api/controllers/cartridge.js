@@ -2,6 +2,7 @@
  * Created by madina on 02.02.2017.
  */
 var cartridgeRepo = require('../dataLayer/cartridgeRepo');
+var deviceRepo = require('../dataLayer/deviceRepo');
 
 module.exports = [
     {
@@ -59,6 +60,19 @@ module.exports = [
             cartridgeRepo.searchcartridges(payload, function (err, data) {
                 if (err) return done(err);
                 done(null, data);
+            });
+        },
+        allowAnonymous: false
+    },
+    {
+        name: 'getcartridgesanddevices',
+        callback: function (payload, done) {
+            cartridgeRepo.getcartridgesandsettype(function (err, data) {
+                if (err) return done(err);
+                deviceRepo.getcartridgesandsettype(function (err, data2) {
+                    if (err) return done(err);
+                    done(null, data.concat(data2));
+                });
             });
         },
         allowAnonymous: false

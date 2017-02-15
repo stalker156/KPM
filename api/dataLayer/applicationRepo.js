@@ -9,6 +9,12 @@ var _ = require('underscore');
 var checkObjectIds = function (application){
     if(application._id)
         application._id = new ObjectID(application._id);
+    if(application.createUser)
+        application.createUser._id = new ObjectID(application.createUser._id);
+    if(application.acceptUser)
+        application.acceptUser._id = new ObjectID(application.acceptUser._id);
+    if(application.closeUser)
+        application.closeUser._id = new ObjectID(application.closeUser._id);
     _.each(application.items, function(item){
         if(item.facility && item.facility._id)
             item.facility._id = new ObjectID(item.facility._id);
@@ -19,6 +25,12 @@ var checkObjectIds = function (application){
             service._id = new ObjectID(service._id);
         });
     });
+    if(application.createDate)
+        application.createDate = new Date(application.createDate);
+    if(application.acceptDate)
+        application.acceptDate = new Date(application.acceptDate);
+    if(application.closeDate)
+        application.closeDate = new Date(application.closeDate);
 }
 module.exports.getapplications = function(done) {
     connector.getDB().then(function(db) {

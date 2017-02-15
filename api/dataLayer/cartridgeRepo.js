@@ -122,3 +122,24 @@ module.exports.searchcartridges = function (payload, done) {
         });
     });
 };
+module.exports.getcartridgesandsettype = function(done) {
+    connector.getDB().then(function(db) {
+        var collection = db.collection(collectionName);
+        collection.aggregate(
+            {
+                $match:{isDeleted: false }
+            },
+            {
+                $project:{
+                    ID:1,
+                    model:1,
+                    customerId:1,
+                    type:{$literally:0}
+                }
+            },
+            function(err, data) {
+                if (err) return done(err);
+                done(null, data);
+            });
+    });
+};

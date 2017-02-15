@@ -5,36 +5,30 @@
 application.controller('report1Ctrl', ['$scope', '$rootScope', 'socket', '$location', '$routeParams', report1Ctrl]);
 
 function report1Ctrl($scope, $rootScope, socket, $location, $routeParams) {
-    $scope.finishDate=new Date();
-    $scope.finishDate.setMinutes(0);
-    $scope.startDate=new Date(new Date().setMonth(new Date().getMonth() - 1));
-    $scope.startDate.setMinutes(0);
-    $.datetimepicker.setLocale('ru');
-    $("#startDate").datetimepicker({
-        value: $scope.startDate,
-        step:60,
-        dayOfWeekStart: 1,
-        onChangeDateTime: function (current_time) {
-            $scope.startDate=current_time;
-            //console.log($scope.dateFrom);
-        }
-    });
-    $("#finishDate").datetimepicker({
-        value: $scope.finishDate,
-        step:60,
-        dayOfWeekStart: 1,
-        onChangeDateTime: function (current_time) {
-            $scope.finishDate=current_time;
-            //console.log($scope.dateTo);
-        }
-    });
-    
-    function getCustomers(){
-        socket.emit('getcustomers',{}, function(err, data){
-            if(err)return console.error(err);
-            $scope.customers = data;
-        });
+    var self = this;
+    $scope.items = [];
+    this.searchOptions = {
+        type:null,
+        model:null,
+        id:null
 
+    };
+    $scope.types = [
+        {value:0, name:'Картридж',  data:[] },
+        {value:1, name:'Оборудование',  data:[] }
+    ];
+    this.init = function(){
+
+        $scope.searchOptions = JSON.parse(JSON.stringify(self.searchOptions));
+        $scope.searchOptions.type = 0;
+    };
+
+    self.init();
+
+    $scope.getData = function(){
+        socket.emit('getcartridgesanddevices',{type:$scope.searchOptions, model:$scope.searchOptions.model, id:$scope.searchOptions.id}, function(err, result){
+            if(err)return console.error(err);
+            $scope.data = result
+        });
     }
-    getCustomers();
 }
